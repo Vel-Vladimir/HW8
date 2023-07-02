@@ -33,7 +33,7 @@ def get_birthdays_per_week(users: list) -> None:
     for user in filtered_users:
         if nearest_saturday <= user["birthday"] < next_saturday:
             key = user["birthday"].weekday() + 1
-            dict_to_print.setdefault(key, []).append(user["name"])
+            dict_to_print[key].append(user["name"])
 
     dict_to_print[1].extend(dict_to_print.get(6, []))
     dict_to_print[1].extend(dict_to_print.get(7, []))
@@ -46,7 +46,7 @@ def get_birthdays_per_week(users: list) -> None:
 
 
 def main():
-    collegues = [{"name": "Bill", "birthday": datetime(year=1979, month=7, day=5)},
+    collegues = [{"name": "Bill", "birthday": datetime(year=1979, month=7, day=2)},
                  {"name": "Jimmy", "birthday": datetime(year=1985, month=6, day=30)},
                  {"name": "Carol", "birthday": datetime(year=2023, month=7, day=4)},
                  {"name": "Will", "birthday": datetime(year=2023, month=7, day=6)},
