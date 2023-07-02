@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from copy import deepcopy
+from collections import defaultdict
 
 
 def get_birthdays_per_week(users: list) -> None:
@@ -21,14 +22,14 @@ def get_birthdays_per_week(users: list) -> None:
     current_weekday = datetime.today().weekday() + 1
     for user in users:
         if current_month <= user["birthday"].month <= current_month + 1:
-            user["birthday"] = datetime(year=current_year, month=user["birthday"].month, day=user["birthday"].day)
+            user["birthday"] = user["birthday"].replace(year=current_year)
             filtered_users.append(user)
 
-    delta = (6 - current_weekday) if (6 - current_weekday) >= 0 else 1
+    delta = 6 - current_weekday
     nearest_saturday = datetime(year=today.year, month=today.month, day=today.day) + timedelta(days=delta)
     next_saturday = nearest_saturday + timedelta(days=7)
 
-    dict_to_print = {}
+    dict_to_print = defaultdict(list)
     for user in filtered_users:
         if nearest_saturday <= user["birthday"] < next_saturday:
             key = user["birthday"].weekday() + 1
@@ -39,18 +40,19 @@ def get_birthdays_per_week(users: list) -> None:
 
     for key in range(1, 6):
         if key in dict_to_print:
-            print(f"{days_of_week[key]}:", end = " ")
-            print(*dict_to_print.get(key), sep=", ")
+            if len(dict_to_print.get(key)) != 0:
+                print(f"{days_of_week[key]}:", end=" ")
+                print(*dict_to_print.get(key), sep=", ")
 
 
 def main():
     collegues = [{"name": "Bill", "birthday": datetime(year=1979, month=7, day=5)},
                  {"name": "Jimmy", "birthday": datetime(year=1985, month=6, day=30)},
                  {"name": "Carol", "birthday": datetime(year=2023, month=7, day=4)},
-                 {"name": "Will", "birthday": datetime(year=2023, month=7, day=2)},
+                 {"name": "Will", "birthday": datetime(year=2023, month=7, day=6)},
                  {"name": "Mark", "birthday": datetime(year=1977, month=11, day=27)},
-                 {"name": "Michael", "birthday": datetime(year=1979, month=7, day=1)},
-                 {"name": "Sara", "birthday": datetime(year=1979, month=7, day=3)}
+                 {"name": "Michael", "birthday": datetime(year=1979, month=7, day=4)},
+                 {"name": "Sara", "birthday": datetime(year=1979, month=7, day=8)}
                  ]
     get_birthdays_per_week(collegues)
 
