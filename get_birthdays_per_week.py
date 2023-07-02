@@ -26,12 +26,12 @@ def get_birthdays_per_week(users: list) -> None:
             filtered_users.append(user)
 
     delta = 6 - current_weekday
-    nearest_saturday = datetime(year=today.year, month=today.month, day=today.day) + timedelta(days=delta)
-    next_saturday = nearest_saturday + timedelta(days=7)
+    current_saturday = datetime(year=today.year, month=today.month, day=today.day) + timedelta(days=delta)
+    next_saturday = current_saturday + timedelta(days=7)
 
     dict_to_print = defaultdict(list)
     for user in filtered_users:
-        if nearest_saturday <= user["birthday"] < next_saturday:
+        if current_saturday <= user["birthday"] < next_saturday:
             key = user["birthday"].weekday() + 1
             dict_to_print[key].append(user["name"])
 
